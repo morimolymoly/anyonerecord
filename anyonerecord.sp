@@ -14,7 +14,6 @@ public void:OnPluginStart()
 {
 	RegConsoleCmd("tvrecord", command_record, "", 0);
 	RegConsoleCmd("stoprecord", command_stoprecord, "", 0);
-	return void:0;
 }
 
 public Action:command_record(client, args)
@@ -22,11 +21,9 @@ public Action:command_record(client, args)
 	new String:title_movie[80];
 	GetCmdArg(1, title_movie, 80);
 	ServerCommand("tv_record %s", title_movie);
-	return Action:0;
 }
 
 public Action:command_stoprecord(client, args)
 {
 	ServerCommand("tv_stoprecord");
-	return Action:0;
 }
