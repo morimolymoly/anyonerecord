@@ -1,0 +1,34 @@
+language: c
+
+env:
+    - SMVERSION=1.8
+    - SMVERSION=1.9
+    - SMVERSION=1.10
+
+matrix:
+    fast_finish: true
+    allow_failures:
+        - env: SMVERSION=1.10
+
+before_install:
+    - sudo apt-get update
+    - sudo apt-get install gcc-multilib
+    - sudo apt-get install lynx
+    - sudo apt-get install lib32stdc++6
+
+before_script:
+    - SMPATTERN="http:.*sourcemod-.*-linux.tar.gz"
+    - SMURL="http://www.sourcemod.net/smdrop/${SMVERSION}/"
+    - SMPACKAGE=`lynx -dump "${SMURL}" | egrep -o "${SMPATTERN}" | tail -1`
+    - wget ${SMPACKAGE}
+    - tar -zxvf $(basename ${SMPACKAGE})
+    - cp anyonerecord.sp addons/sourcemod/scripting/
+    - cd addons/sourcemod/scripting/
+    - chmod +x spcomp
+    - chmod +x compile.sh
+
+script:
+    - ./compile.sh
+
+after_script:
+    - ls ../plugin
